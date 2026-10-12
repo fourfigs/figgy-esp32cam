@@ -1,3 +1,5 @@
+> **Dashboard 1.1:** Wi-Fi picker, CSV network collection, fullscreen viewing, and improved connection feedback. Start with [DASHBOARD.md](DASHBOARD.md) for the update instructions and current development workflow. The original release is tagged `episode-001-original`.
+
 # GETTIN’ FIGGY WITH IT!! — EPISODE 001
 ## 001_firmware_camesp32-cam.bin
 
