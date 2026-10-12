@@ -1,0 +1,5 @@
+# 002 only — install in a separate Python environment on your computer.
+# Not installed or needed for episode 001 or firmware flashing.
+ultralytics>=8.3,<9
+opencv-python>=4.10,<5
+numpy>=1.26,<3

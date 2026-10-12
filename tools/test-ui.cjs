@@ -1,0 +1,14 @@
+const vm=require('vm'),fs=require('fs'),assert=require('assert');
+const html=fs.readFileSync(require('path').join(__dirname,'../web/index.html'),'utf8');
+const elements={};const el=id=>elements[id]??=( {hidden:false,disabled:false,textContent:id==='message'?'Checking the camera…':'',removeAttribute(k){delete this[k]}} );
+let state={camera:true,setup:true,ip:'192.168.4.1'},fail=false,saved=false,download=false;
+const context={document:{getElementById:el,addEventListener(){},createElement(){return {click(){download=true}}}},location:{href:'http://192.168.4.1/'},URL,URLSearchParams,AbortSignal,Date,setTimeout(){},setInterval(){},FormData:class{*[Symbol.iterator](){yield ['ssid','Test'];yield ['password','testpassword'];}},fetch:async(url,opt)=>{if(fail)throw Error('offline');if(url==='/status')return {ok:true,json:async()=>state};if(url==='/capture')return {ok:true,blob:async()=>new Blob(['jpeg'])};if(url==='/wifi'){assert.equal(opt.headers['X-Figgy-Setup'],'1');saved=true;return {ok:true,text:async()=>'Saved.'}}}};
+vm.createContext(context);vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1],context);
+(async()=>{await context.status();assert.equal(el('badge').textContent,'Camera ready');assert.equal(el('toggle').disabled,false);
+el('toggle').onclick();assert.equal(new URL(el('stream').src).port,'81');el('toggle').onclick();assert.equal(el('stream').hidden,true);assert.equal(el('stream').src,undefined);
+el('toggle').onclick();el('stream').onerror();assert.match(el('message').textContent,/disconnected/);
+await el('capture').onclick();assert(download);assert.equal(el('capture').disabled,false);
+await el('wifi').onsubmit({preventDefault(){},target:{querySelector:()=>({disabled:false}),reset(){}}});assert(saved);
+state.camera=false;await context.status();assert(el('toggle').disabled);assert.match(el('message').textContent,/initialization failed/);
+fail=true;await context.status();assert.equal(el('badge').textContent,'Offline');assert(el('capture').disabled);
+console.log('PASS: ready/offline/camera-failure states, stream URL/start/stop/error, photo download, Wi-Fi POST. DOM mocked; no visual or hardware validation.');})();

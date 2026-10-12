@@ -1,0 +1,5 @@
+Episode 001: compiled successfully without warnings.
+Factory checksum, ESP32 header, DIO/40MHz/4MB, partition bounds and application match: PASS.
+Detection route present: False. MJPEG stream handler present: True.
+Single .ino matches compiled src/main.cpp byte-for-byte.
+Hardware flash/camera and real model inference: NOT TESTED.
