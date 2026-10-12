@@ -1,4 +1,7 @@
-ESP32-CAM PlatformIO firmware build: PASS.
-Dashboard behavior tests: PASS (mocked DOM/device).
-Factory/app image checksums and partition validation: see tools/flash.py --check.
-No physical-device or visual browser verification performed.
+2026-10-12 — Figgy dashboard and CSV update
+PASS: PlatformIO ESP32-CAM firmware compile/link.
+PASS: dashboard behavior tests, including CSV quoting/formula protection and accumulation limits (mocked DOM/device).
+PASS: Prettier formatting checks.
+PASS: embedded assets match HTML/CSS/JS; Arduino and PlatformIO sources identical.
+PASS: factory/application SHA256, image headers, partition bounds, and packaged app match.
+Physical-device tests have not been performed. Visual browser automation was blocked by the local sandbox.
